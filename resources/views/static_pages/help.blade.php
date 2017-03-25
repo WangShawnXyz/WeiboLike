@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Myweb App</title>
-</head>
-<body>
+@extends('layouts.default')
+@section('content')
 	<h1>Help Page</h1>
-</body>
-</html>
+@stop
