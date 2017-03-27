@@ -20,4 +20,20 @@ class UsersController extends Controller
     	$user = User::findOrFail($id);
     	return view('users.show', compact('user'));
     }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|min:3|max:50',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|min:6|max:12|confirmed'
+            ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+            ]);
+        session()->flash('success', 'Welcome! You have registered successfully!');
+        return redirect()->route('users.show', [$user]);
+    }
 }
