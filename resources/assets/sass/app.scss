@@ -8,12 +8,12 @@ $navbar-color: #3c3e42;
 body {
 	padding-top: 60px;
 }
-a {
+/*a {
 	color: white;
 	&:hover {
 		color: blue;
 	}
-}
+}*/
 
 section {
   overflow: auto;
@@ -74,6 +74,12 @@ p {
   }
 }
 
+#logout {
+	cursor: default;
+	&:hover {
+		back-ground-color: transparent;
+	}
+}
 /* footer */
 
 footer {

@@ -5734,11 +5734,12 @@ button.close {
 body {
   padding-top: 60px; }
 
-a {
-  color: white; }
-  a:hover {
-    color: blue; }
-
+/*a {
+	color: white;
+	&:hover {
+		color: blue;
+	}
+}*/
 section {
   overflow: auto; }
 
@@ -5785,6 +5786,11 @@ p {
   font-weight: bold; }
   #logo:hover {
     color: #fff; }
+
+#logout {
+  cursor: default; }
+  #logout:hover {
+    back-ground-color: transparent; }
 
 /* footer */
 footer {
@@ -5841,5 +5847,17 @@ section.user_info {
   margin-right: 10px;
   max-width: 50px;
   border-radius: 50%; }
+
+/* forms */
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px; }
+
+input {
+  height: auto !important; }
+
+.panel {
+  margin-top: 50px; }
 
 /*# sourceMappingURL=app.css.map */
