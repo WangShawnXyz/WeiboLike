@@ -9,7 +9,18 @@ use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'only' => ['edit', 'update']
+            ]);
+    }
+    public function index()
+    {
+        $users = User::paginate(30);
+
+        return view('users.index', compact('users'));
+    }
     public function create()
     {
     	return view('users.create');
@@ -36,5 +47,31 @@ class UsersController extends Controller
         Auth::login($user);
         session()->flash('success', 'Welcome! You have registered successfully!');
         return redirect()->route('users.show', [$user]);
+    }
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+        return view('users.edit', compact('user'));
+    }
+    public function update($id, Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|min:3|max:50',
+            'password' => 'confirmed|min:6|max:12'
+            ]);
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+
+        $data = [];
+        $data['name'] = $request->name;
+        if($request->password){
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
+        
+        session()->flash('success', 'Update successfully!');
+
+        return redirect()->route('users.show', $id);
     }
 }
