@@ -5878,4 +5878,9 @@ input {
     padding: 10px 0;
     boder-bottom: 1px solid #eeeeee; }
 
+.delete-btn {
+  float: right;
+  position: relative;
+  right: 0; }
+
 /*# sourceMappingURL=app.css.map */
