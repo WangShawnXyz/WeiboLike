@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Auth;
+use Mail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests;
@@ -47,9 +48,9 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password)
             ]);
-        Auth::login($user);
-        session()->flash('success', 'Welcome! You have registered successfully!');
-        return redirect()->route('users.show', [$user]);
+        $this->sendEmailConfirmationTo($user);
+        session()->flash('success', 'Verify email has been sent to your registered email, please check it.');
+        return redirect('/');
     }
     public function edit($id)
     {
@@ -84,5 +85,32 @@ class UsersController extends Controller
         $user->delete();
         session()->flash('success', 'Delete successfully!');
         return back();
+    }
+
+    protected function sendEmailConfirmationTo($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = '744585345@qq.com';
+        $name = 'WangShawn';
+        $to = $user->email;
+        $subject = 'Thank you for registering! Please confirm your email address.';
+
+        Mail::send($view, $data, function ($message) use($from, $name, $to, $subject)
+        {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success', 'Activation success!');
+
+        return redirect()->route('users.show', [$user]);
     }
 }
