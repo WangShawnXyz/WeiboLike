@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
 use App\Models\User;
 use App\Policies\UserPolicy;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     ];
     public function boot(GateContract $gate)
     {
+        // Carbon::setLocale('zh');//set chinese time differance
         $this->registerPolicies($gate);
     }
 
