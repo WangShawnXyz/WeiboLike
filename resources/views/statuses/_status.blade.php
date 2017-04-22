@@ -3,7 +3,8 @@
 		<img src="{{ $user->gravatar() }}" alt="{{ $user->name }}" class="gravatar"/>
 	</a>
 	<span class="user">
-		<a href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a>
+		<a href="{{ route
+		('users.show', $user->id) }}">{{ $user->name }}</a>
 	</span>
 	<span class="timestamp">
 		{{ $status->created_at->diffForHumans() }}	
@@ -12,7 +13,7 @@
 	<span class="content">
 		{{ $status->content }}
 	</span>
-	@can
+	@can('destroy', $status)
 		<form action="{{ route('statuses.destroy', $status->id) }}" method="POST">
 			{{ csrf_field() }}
 			{{ method_field('DELETE') }}
