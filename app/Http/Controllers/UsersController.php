@@ -13,7 +13,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'only' => ['edit', 'update', 'destroy']
+            'only' => ['edit', 'update', 'destroy', 'followings', 'followerss']
             ]);
         $this->middleware('guest',[
             'only' => ['create']
@@ -113,5 +113,20 @@ class UsersController extends Controller
         session()->flash('success', 'Activation success!');
 
         return redirect()->route('users.show', [$user]);
+    }
+
+    public function followings($id)
+    {
+        $user = User::findOrFail($id);
+        $users = $user->followings()->paginate(30);
+        $title = 'Followings List';
+        return view('users.show_follow', compact('users', 'title'));
+    }
+    public function followers($id)
+    {
+        $user = User::findOrFail($id);
+        $users = $user->followers()->paginate(30);
+        $title = 'Followers List';
+        return view('users.show_follow', compact('users', 'title'));
     }
 }
